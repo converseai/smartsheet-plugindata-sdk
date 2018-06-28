@@ -20,30 +20,30 @@ module.exports = class PluginData extends GRPC {
     });
   }
 
-  getPluginOAuth2Info(data) {
-    return this.run('getPluginOAuth2Info', data);
+  getPluginOAuth2Info(caller, oAuthType) {
+    return this.run('getPluginOAuth2Info', { caller, oAuthType });
   }
 
-  storePluginOAuth2Info(data) {
-    return this.run('storePluginOAuth2Info', data);
+  storePluginOAuth2Info(caller, oAuthType, oAuth2Data) {
+    return this.run('storePluginOAuth2Info', { caller, oAuthType, oAuth2Data });
   }
 
-  deletePluginOAuth2Info(data) {
-    return this.run('deletePluginOAuth2Info', data);
+  deletePluginOAuth2Info(caller, oAuthType) {
+    return this.run('deletePluginOAuth2Info', { caller, oAuthType });
   }
 
-  getPluginData(data) {
-    return this.run('getPluginData', Buffer.from(JSON.stringify(data)))
+  getPluginData(key, caller) {
+    return this.run('getPluginData', { key, caller })
       .then(res => JSON.parse(res.data.toString('utf8')));
   }
 
-  storePluginData(data) {
-    return this.run('storePluginData', Buffer.from(JSON.stringify(data)))
+  storePluginData(key, caller, data) {
+    return this.run('storePluginData', { key, caller, data: Buffer.from(JSON.stringify(data)) })
       .then(res => JSON.parse(res.data.toString('utf8')));
   }
 
-  deletePluginData(data) {
-    return this.run('deletePluginData', Buffer.from(JSON.stringify(data)))
+  deletePluginData(key, caller) {
+    return this.run('deletePluginData', { key, caller })
       .then(res => JSON.parse(res.data.toString('utf8')));
   }
 };
