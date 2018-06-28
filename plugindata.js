@@ -9,27 +9,41 @@ module.exports = class PluginData extends GRPC {
     });
   }
 
-  getPluginOAuth2Info(...args) {
-    return this.client.getPluginOAuth2Info(...args);
+  run(func, data) {
+    return new Promise((resolve, reject) => {
+      this.client[func](data, (err, res) => {
+        if (err) {
+          return reject(err);
+        }
+        return resolve(res);
+      });
+    });
   }
 
-  storePluginOAuth2Info(...args) {
-    return this.client.storePluginOAuth2Info(...args);
+  getPluginOAuth2Info(data) {
+    return this.run('getPluginOAuth2Info', Buffer.from(JSON.stringify(data)))
+      .then(res => JSON.parse(res.data.toString('utf8')));
   }
 
-  deletePluginOAuth2Info(...args) {
-    return this.client.deletePluginOAuth2Info(...args);
+  storePluginOAuth2Info(data) {
+    return this.run('storePluginOAuth2Info', Buffer.from(JSON.stringify(data)))
+      .then(res => JSON.parse(res.data.toString('utf8')));
   }
 
-  getPluginData(...args) {
-    return this.client.getPluginData(...args);
+  deletePluginOAuth2Info(data) {
+    return this.run('deletePluginOAuth2Info', Buffer.from(JSON.stringify(data)))
+      .then(res => JSON.parse(res.data.toString('utf8')));
   }
 
-  storePluginData(...args) {
-    return this.client.storePluginData(...args);
+  getPluginData(data) {
+    return this.run('getPluginData', data);
   }
 
-  deletePluginData(...args) {
-    return this.client.deletePluginData(...args);
+  storePluginData(data) {
+    return this.run('storePluginData', data);
+  }
+
+  deletePluginData(data) {
+    return this.run('deletePluginData', data);
   }
 };
