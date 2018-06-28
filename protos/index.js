@@ -1,5 +1,5 @@
 const path = require('path');
-const grpc = require('./update');
+const grpc = require('grpc');
 
 module.exports = class GRPC {
   constructor({ host, clazz, isSecure = false }) {
