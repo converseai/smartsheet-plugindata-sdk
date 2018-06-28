@@ -1,0 +1,123 @@
+syntax = "proto3";
+
+package plugininstaller;
+
+import "github.com/planningto/groot/service/base/base.proto";
+
+option java_package = "com.smartsheet.groot.plugininstaller";
+option java_multiple_files = true;
+option java_outer_classname = "PluginInstallerProto";
+
+// Request used for install and uninstall plugins
+message InstallRequest{
+  oneof data {
+    PluginInstallSpec specification = 1;
+    bytes code = 2;
+  }
+}
+
+// Object that contains the complete plugin install configuration
+message PluginInstallSpec{
+  // UploadKey authentication key for making requests to the plugin installer service.
+  string uploadKey = 1;
+  // PluginID ID of the plugin to be created, updated, or deleted.
+  string pluginID = 2;
+  // PluginSpec JSON format object that contains the plugin specification
+  bytes pluginSpec = 3;
+  // Host details for the internal, or external, plugin
+	oneof host{
+    // InternalEnvironment details for the internal plugin
+    PluginEnvironment internalEnvironment = 4;
+    // ExternalWebhook details for the external webhook
+		PluginWebhook externalWebhook = 5;
+  }
+}
+
+enum PluginEnvironmentType{
+	Node=0;
+}
+
+message PluginEnvironment{
+	PluginEnvironmentType environmentType = 1;
+  string checksum = 2;
+  int32 majorVersion = 3;
+  string runtimeVersion = 4;
+}
+
+message PluginWebhook{
+	map<string,string> headers = 1;
+	string webhookURL = 2;
+}
+
+message InstallResponse{
+	base.CallError error = 1;
+  string pluginUUID = 2;
+  string revisionID = 3;
+  PluginEnvironment internalEnvironment = 4;
+}
+
+message UninstallRequest{
+  string uploadKey = 1;
+  string pluginID = 2;
+}
+
+message UninstallResponse{
+	base.CallError error = 1;
+}
+
+message ActivateRevisionRequest {
+	// UploadKey authentication key for making requests to the plugin installer service.
+  string uploadKey = 1;
+  // PluginID the ID of the plugin
+  string pluginID = 2;
+  // RevisionID the ID of the plugin revision
+	string revisionID = 3;
+}
+
+message ActivateRevisionResponse {
+	base.CallError error = 1;
+}
+
+message StreamLogsRequest {
+  // UploadKey authentication key for making requests to the plugin installer service.
+  string uploadKey = 1;
+  // The ID of the plugin you want to log
+  string pluginID = 2;
+	oneof filter {
+		int64 fromTimestamp = 3;
+		int32 noOfRecords = 4;
+	}
+}
+
+message StreamLogsResponse {
+  base.CallError error = 1;
+  PluginLogRecord record = 2;	
+  bool idle = 3;
+}
+
+enum LogType {
+  INFO = 0;
+  DEBUG = 1;
+  ERROR = 2; 
+}
+
+message PluginLogRecord {
+	int64 timestamp = 1;
+	LogType logType = 2;
+	string message = 3;
+}
+
+// PluginInstaller is the public facing service.
+service PluginInstaller {
+  // Install will install the plugin with the given specification
+  rpc Install(stream InstallRequest) returns (InstallResponse){};
+  // Uninstall will remove the plugin, including all revisions and other data
+  rpc Uninstall(UninstallRequest) returns (UninstallResponse){};
+  // ActivateRevision will make a specified plugin revision the active plugin version
+  rpc ActivateRevision(ActivateRevisionRequest) returns (ActivateRevisionResponse){};
+
+  // Streams the logs max runtime streaming is 10 mins. if there is no data for 1 min the stream is closed as well
+	// This should be only used at development time for debug purposes, the logs are not kept for more than a hour
+	// If you need log retention, please make sure that you get your plugis to send logs to your own logging system
+	rpc StreamLogs(StreamLogsRequest) returns (stream StreamLogsResponse){};
+}

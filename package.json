@@ -1,0 +1,57 @@
+{
+  "name": "smartsheet-plugindata-sdk",
+  "version": "1.0.0-beta.0",
+  "description": "A node.js library for interfacing with Smartsheet plugin data.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test/**/**.spec.js --recursive",
+    "lint": "./node_modules/.bin/eslint ./**/*.js --fix",
+    "precommit": "npm test && ./node_modules/.bin/eslint ./**/*.js",
+    "prepush": "npm test",
+    "protos": "./protos/update.js"
+  },
+  "keywords": [
+    "smartsheet",
+    "plugindata",
+    "sdk"
+  ],
+  "author": "graeme.cassels@smartsheet.com",
+  "license": "MIT",
+  "peerDependencies": {
+    "grpc": "1.x"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.11.0",
+    "husky": "^0.14.3",
+    "mocha": "^5.1.1",
+    "sinon": "^6.0.0",
+    "sinon-chai": "^3.2.0",
+    "sinon-express-mock": "^2.0.4"
+  },
+  "eslintConfig": {
+    "extends": "airbnb-base",
+    "env": {
+      "node": true,
+      "commonjs": true
+    },
+    "rules": {
+      "camelcase": [
+        "off"
+      ],
+      "no-underscore-dangle": [
+        "off"
+      ],
+      "object-curly-newline": [
+        "error",
+        {
+          "ObjectPattern": {
+            "multiline": true
+          }
+        }
+      ]
+    }
+  }
+}
