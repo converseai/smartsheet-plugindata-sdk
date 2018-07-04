@@ -23,5 +23,15 @@ module.exports = class GRPC {
       cred,
       { deadline },
     );
+
+    process.on('exit', () => {
+      this.close();
+    });
+  }
+
+  close() {
+    if (this.client !== undefined && this.client !== null) {
+      this.client.close();
+    }
   }
 };
