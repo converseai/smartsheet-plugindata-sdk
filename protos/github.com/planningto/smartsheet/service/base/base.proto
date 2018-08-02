@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package base;
 
-option java_package = "com.smartsheet.groot.base";
+option java_package = "com.smartsheet.smartsheet.base";
 option java_multiple_files = true;
 option java_outer_classname = "BaseProto";
 
@@ -43,8 +43,11 @@ message Caller {
 }
 
 message PluginIdentifier{
-	string providerUUID = 1;
 	string pluginID = 2;
+	oneof provider{
+		string providerUUID = 1;
+		string providerID = 3;
+	}
 }
 
 message TokenData {

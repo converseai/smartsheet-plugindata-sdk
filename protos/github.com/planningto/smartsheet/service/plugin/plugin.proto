@@ -2,9 +2,9 @@ syntax = "proto3";
 
 package plugin;
 
-import "github.com/planningto/groot/service/base/base.proto";
+import "github.com/planningto/smartsheet/service/base/base.proto";
 
-option java_package = "com.smartsheet.groot.plugin";
+option java_package = "com.smartsheet.smartsheet.plugin";
 option java_multiple_files = true;
 option java_outer_classname = "PluginProto";
 
@@ -135,7 +135,7 @@ message DeleteKeyResponse{
 message ListPluginRequest{
 	oneof provider{
 		string providerUUID = 1;
-		ProviderDetails providerDetails = 2;
+		string providerID = 2;
 	}
 }
 
@@ -147,8 +147,13 @@ message ListPluginResponse{
 message ListFunctionsRequest{
 	oneof provider{
 		string providerUUID = 1;
-		ProviderDetails providerDetails = 2;
+		string providerID = 2;
 	}
+	oneof plugin{
+		string pluginUUID = 3;
+		string pluginID = 4;
+	}
+	string category = 5;
 }
 
 message ListFunctionsResponse{
@@ -159,7 +164,7 @@ message ListFunctionsResponse{
 message ListUploaderAPIKeyRequest{
 	oneof provider{
 		string providerUUID = 1;
-		ProviderDetails providerDetails = 2;
+		string providerID = 2;
 	}
 }
 

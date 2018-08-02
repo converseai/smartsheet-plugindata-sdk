@@ -2,10 +2,10 @@ syntax = "proto3";
 
 package plugindata;
 
-import "github.com/planningto/groot/service/base/base.proto";
-import "github.com/planningto/groot/service/plugin/plugin.proto";
+import "github.com/planningto/smartsheet/service/base/base.proto";
+import "github.com/planningto/smartsheet/service/plugin/plugin.proto";
 
-option java_package = "com.smartsheet.groot.plugindata";
+option java_package = "com.smartsheet.smartsheet.plugindata";
 option java_multiple_files = true;
 option java_outer_classname = "PluginDataProto";
 

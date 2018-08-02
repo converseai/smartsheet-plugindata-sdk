@@ -2,9 +2,9 @@ syntax = "proto3";
 
 package plugininstaller;
 
-import "github.com/planningto/groot/service/base/base.proto";
+import "github.com/planningto/smartsheet/service/base/base.proto";
 
-option java_package = "com.smartsheet.groot.plugininstaller";
+option java_package = "com.smartsheet.smartsheet.plugininstaller";
 option java_multiple_files = true;
 option java_outer_classname = "PluginInstallerProto";
 

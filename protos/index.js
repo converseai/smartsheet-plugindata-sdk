@@ -14,7 +14,7 @@ module.exports = class GRPC {
 
     const proto = grpc.load({
       root: path.dirname(__filename),
-      file: `github.com/planningto/groot/service/${clazz.toLowerCase()}/${clazz.toLowerCase()}.proto`,
+      file: `github.com/planningto/smartsheet/service/${clazz.toLowerCase()}/${clazz.toLowerCase()}.proto`,
     });
 
     const deadline = new Date().setTime(new Date().getTime() + (3600 * 10)).toString();
