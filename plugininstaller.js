@@ -5,7 +5,7 @@ module.exports = class PluginInstaller extends GRPC {
     super({
       host,
       clazz: 'PluginInstaller',
-      isSecure: false,
+      isSecure: true,
     });
   }
 };
